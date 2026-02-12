@@ -17,3 +17,11 @@ insert into dbo.Employees (FirstName, LastName, Email, HireDate) values
 
 select * from dbo.Employees where EmployeeID=1;
 select * from dbo.Employees;
+
+--Exec sp_help 'dbo.Employees';
+
+
+
+--Exec sp_databases;
+--select name from sys.databases;
+
