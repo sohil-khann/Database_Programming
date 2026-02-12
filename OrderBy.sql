@@ -63,3 +63,113 @@ SELECT * FROM Employee ORDER by Name ASC OFFSET 0 ROWS fetch next 5 rows only;
 
 select Name, Salary from Employee order by Salary desc OFFSET 0 ROWS fetch next 3 rows only;
 
+--Using TOP n Clause in SQL Server with Examples
+
+
+SELECT TOP(3)
+ID, Name, EmailID, Gender, CITY, Department
+FROM Employee
+WHERE Gender = 'Male'
+ORDER BY ID;
+
+--Using TOP PERCENT keyword in SQL Server:
+SELECT TOP (70) PERCENT
+ID, Name, EmailID, Gender, CITY, Department
+FROM Employee
+WHERE Gender = 'Male'
+ORDER BY ID;
+
+--Using TOP with TIES in SQL Server:
+drop table if exists dbo.Person;
+
+CREATE TABLE Person
+(
+  ID INT PRIMARY KEY IDENTITY(1,1),
+  Name VARCHAR(50),
+  Salary int
+)
+GO
+
+INSERT INTO Person VALUES('PRANAYA', 20000)
+INSERT INTO Person VALUES('KUMAR', 30000)
+INSERT INTO Person VALUES('ROUT', 25000)
+INSERT INTO Person VALUES('PRANAYA', 25000)
+INSERT INTO Person VALUES('KUMAR', 30000)
+INSERT INTO Person VALUES('ROUT', 25000)
+INSERT INTO Person VALUES('PRIYANKA', 20000)
+INSERT INTO Person VALUES('PREETY', 30000)
+GO
+
+SELECT TOP (3) Name FROM Person
+ORDER BY Name
+
+SELECT TOP (3) WITH TIES Name FROM Person ORDER BY Name ASC
+
+SELECT TOP (30) PERCENT Name FROM Person ORDER BY Name ASC
+
+SELECT TOP (30) PERCENT WITH TIES Name FROM Person ORDER BY Name ASC
+
+SELECT COUNT(*) AS TotalEmployee FROM Employee
+
+SELECT Department, COUNT(*) AS TotalEmployee
+FROM Employee 
+GROUP BY Department
+
+
+--Write a query to get the number of employees working in each Gender per department.
+SELECT Department, Gender, EmployeeCount = COUNT(*) 
+FROM Employee 
+GROUP BY Department, Gender 
+ORDER BY Department
+
+SELECT Department, MIN(Salary) AS 'Lowest salary'
+FROM Employee
+GROUP BY Department
+HAVING MIN(Salary) > 25000;
+
+SELECT City, COUNT(*) AS 'Number of employees'
+FROM Employee
+GROUP BY City
+HAVING COUNT(*) > 2;
+
+SELECT Department, SUM(Salary) AS Total_Salary
+FROM Employee
+GROUP BY Department
+HAVING SUM(Salary) > 14000;
+
+
+
+Create table Sales
+(
+    Product nvarchar(50),
+    SaleAmount int
+)
+Go
+
+Insert into Sales values ('iPhone', 500)
+Insert into Sales values ('Laptop', 800)
+Insert into Sales values ('iPhone', 1000)
+Insert into Sales values ('Speakers', 400)
+Insert into Sales values ('Laptop', 600)
+Go
+
+SELECT Product, SUM(SaleAmount) AS TotalSales
+FROM Sales
+WHERE Product in ('iPhone', 'Speakers')
+GROUP BY Product
+
+SELECT Product, SUM(SaleAmount) AS TotalSales
+FROM Sales
+GROUP BY Product
+HAVING Product in ('iPhone', 'Speakers')
+
+-- After connecting, verify connection
+SELECT @@SERVERNAME AS ServerName;
+SELECT @@VERSION AS SQLServerVersion;
+SELECT SUSER_SNAME() AS CurrentUser;
+SELECT DB_NAME() AS CurrentDatabase;
+
+-- Verify database creation
+SELECT name, database_id, create_date 
+FROM sys.databases 
+WHERE name IN ('PracticeDB', 'store_db');
